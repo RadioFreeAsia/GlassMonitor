@@ -1,0 +1,9 @@
+This is the README file for the GlassMonitor package.
+
+This software comes with ABSOLUTELY NO WARRANTY.  See the file 'COPYING' for
+details.
+
+See the file 'INSTALL' for instructions on building GlassMonitor from source.
+
+GlassMonitor is a GUI application for monitoring a set of audio stream sources.
+

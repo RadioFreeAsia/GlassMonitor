@@ -1,0 +1,94 @@
+## glassplay.spec.in
+##
+##    Minimalist Audio Streaming Player
+##
+##    Copyright (C) 2014-2016  Fred Gleason <fredg@paravelsystems.com>
+##
+##    This program is free software; you can redistribute it and/or modify
+##    it under the terms of version 2 of the GNU General Public License as
+##    published by the Free Software Foundation;
+##
+##    This program is distributed in the hope that it will be useful,
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##    GNU General Public License for more details.
+##
+##    You should have received a copy of the GNU General Public License
+##    along with this program; if not, write to the Free Software
+##    Foundation, Inc., 59 Temple Place, Suite 330, 
+##    Boston, MA  02111-1307  USA
+##
+
+Summary: Minimalist Audio Streaming Player
+Name: glassplayer
+Version: @VERSION@
+Release: @RPM_RELEASE@%{?dist}
+License: GPLv2
+Packager: Fred Gleason <fredg@paravelsystems.com>
+Group: Productivity/Multimedia/Other
+Source: %{name}-@VERSION@.tar.gz
+BuildRequires: qt-devel libsamplerate-devel libsndfile-devel alsa-lib-devel
+BuildRoot: /var/tmp/%{name}-@VERSION@
+Requires: curl file
+
+%description
+Glassplayer is a streaming audio player intended for use with Shoutcast and
+Icecast streaming servers.  It can play audio using ALSA audio devices.
+It is controlled completely from the command-line, with no configuration
+files or GUI required.
+
+
+%package gui
+Summary: GlassPlayerGui control applet for GlassPlayer
+Group: Productivity/Multimedia/Other
+Requires: glassplayer
+
+%description gui
+GlassPlayerGui is a control applet for driving the GlassPlayer audio stream
+player.  It provides a convenient readout of all GlassPlayer statistics
+as well as displaying current stream and channel metadata.
+
+
+%prep
+
+
+%setup
+
+
+%build
+%configure
+make
+
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+
+
+%post
+
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+
+%files
+%defattr(-,root,root)
+%{_bindir}/glassplayer
+%{_mandir}/man1/glassplayer.1.gz
+%doc AUTHORS
+%doc ChangeLog
+%doc COPYING 
+%doc NEWS 
+%doc README 
+
+
+%files gui
+%defattr(-,root,root)
+%{_bindir}/glassplayergui
+%{_mandir}/man1/glassplayergui.1.gz
+
+
+%changelog
+* Fri Jan 15 2016 Fred Gleason <fredg@paravelsystems.com>
+-- Initial RPM creation.
