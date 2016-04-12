@@ -37,12 +37,16 @@ dist_glassmonitor_SOURCES = cmdswitch.cpp cmdswitch.h\
                             monitor.cpp monitor.h\
                             playmeter.cpp playmeter.h\
                             profile.cpp profile.h\
-                            segmeter.cpp segmeter.h
+                            segmeter.cpp segmeter.h\
+                            statsdialog.cpp statsdialog.h\
+                            statspanel.cpp statspanel.h
 
 nodist_glassmonitor_SOURCES = moc_glassmonitor.cpp\
                               moc_monitor.cpp\
                               moc_playmeter.cpp\
-                              moc_segmeter.cpp
+                              moc_segmeter.cpp\
+                              moc_statsdialog.cpp\
+                              moc_statspanel.cpp
 
 glassmonitor_LDADD = @GUILIBS@ @LIBJACK@
 glassmonitor_LDFLAGS = @GUIFLAGS@

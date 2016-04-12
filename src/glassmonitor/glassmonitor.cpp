@@ -41,6 +41,8 @@ MainWidget::MainWidget(QWidget *parent)
     }
   }
 
+  setWindowTitle(QString("GlassMonitor v")+VERSION);
+
   //
   // Load Configuration
   //
@@ -66,14 +68,14 @@ MainWidget::MainWidget(QWidget *parent)
     glass_monitors.back()->start();
   }
 
-  setMinimumSize(QSize(500,40*glass_monitors.size()));
+  setMinimumSize(QSize(570,40*glass_monitors.size()));
   setMaximumHeight(40*glass_monitors.size());
 }
 
 
 QSize MainWidget::sizeHint() const
 {
-  return QSize(500,100);
+  return QSize(570,100);
 }
 
 

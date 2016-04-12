@@ -33,6 +33,15 @@ Monitor::Monitor(jack_client_t *jack,int streamno,Config *config,
   mon_config=config;
 
   //
+  // Dialogs
+  //
+  mon_stats_dialog=new StatsDialog(this);
+  mon_stats_dialog->
+    setWindowTitle(tr("Stream Stats")+" - "+config->monitorLabel(streamno));
+  connect(mon_stats_dialog,SIGNAL(closeClicked()),
+	  this,SLOT(statsClickedData()));
+
+  //
   // Meters
   //
   for(int i=0;i<GLASSMONITOR_MAX_AUDIO_CHANNELS;i++) {
@@ -51,8 +60,11 @@ Monitor::Monitor(jack_client_t *jack,int streamno,Config *config,
   mon_label=new QLabel(this);
 
   //
-  // Listen Button
+  // Buttons
   //
+  mon_stats_button=new QPushButton(tr("Stats"),this);
+  connect(mon_stats_button,SIGNAL(clicked()),this,SLOT(statsClickedData()));
+
   mon_listen_button=new QPushButton(tr("Listen"),this);
   connect(mon_listen_button,SIGNAL(clicked()),this,SLOT(listenClickedData()));
 }
@@ -96,6 +108,20 @@ void Monitor::stop()
 unsigned Monitor::channels() const
 {
   return mon_channels;
+}
+
+
+void Monitor::statsClickedData()
+{
+  if(mon_stats_dialog->isVisible()) {
+    mon_stats_dialog->hide();
+    mon_stats_button->setStyleSheet("");
+  }
+  else {
+    mon_stats_dialog->show();
+    mon_stats_button->
+      setStyleSheet("color: #FFFFFF; background-color: #FF0000;");
+  }
 }
 
 
@@ -215,7 +241,8 @@ void Monitor::resizeEvent(QResizeEvent *e)
     mon_meters[i]->setGeometry(5,5+i*meter_height,200,meter_height);
   }
 
-  mon_label->setGeometry(210,5,size().width()-290,size().height()-10);
+  mon_label->setGeometry(210,5,size().width()-360,size().height()-10);
+  mon_stats_button->setGeometry(size().width()-140,5,60,size().height()-10);
   mon_listen_button->setGeometry(size().width()-70,5,60,size().height()-10);
 }
 
@@ -247,9 +274,13 @@ void Monitor::UpdateStat(const QString &category,const QString &param,
 {
   //  printf("Category: %s  Param: %s\n",(const char *)category.toUtf8(),
   //	 (const char *)value.toUtf8());
+
+  mon_stats_dialog->update(category,param,value);
+
   if((category=="Codec")&&(param=="Channels")) {
     mon_channels=value.toUInt();
   }
+  
 }
 
 void Monitor::ProcessMeterUpdates(const QString &values)

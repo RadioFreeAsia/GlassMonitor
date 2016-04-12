@@ -31,6 +31,7 @@
 
 #include "config.h"
 #include "playmeter.h"
+#include "statsdialog.h"
 
 class Monitor : public QWidget
 {
@@ -46,6 +47,7 @@ class Monitor : public QWidget
   void stopped(int signalnum);
 
  private slots:
+  void statsClickedData();
   void listenClickedData();
   void processReadyReadData();
   void processFinishedData(int exit_code,QProcess::ExitStatus status);
@@ -55,13 +57,15 @@ class Monitor : public QWidget
   void resizeEvent(QResizeEvent *e);
 
  private:
-  QPushButton *mon_listen_button;
   void ProcessStats(const QStringList &stats);
   void UpdateStat(const QString &category,const QString &param,
 		  const QString &value);
   void ProcessMeterUpdates(const QString &values);
+  StatsDialog *mon_stats_dialog;
   PlayMeter *mon_meters[GLASSMONITOR_MAX_AUDIO_CHANNELS];
   QLabel *mon_label;
+  QPushButton *mon_stats_button;
+  QPushButton *mon_listen_button;
   unsigned mon_channels;
   bool mon_listening;
   QProcess *mon_process;
