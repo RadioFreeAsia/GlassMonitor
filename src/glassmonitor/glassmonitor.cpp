@@ -85,8 +85,8 @@ void MainWidget::paintEvent(QPaintEvent *e)
   p->setPen(Qt::black);
   p->setBrush(Qt::black);
   for(unsigned i=1;i<glass_monitors.size();i++) {
-    p->drawLine(5,glass_monitors[i-1]->size().height(),size().width()-5,
-		glass_monitors[i-1]->size().height());
+    p->drawLine(5,i*glass_monitors[i-1]->size().height(),size().width()-5,
+		i*glass_monitors[i-1]->size().height());
   }
   delete p;
 }
