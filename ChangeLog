@@ -8,3 +8,5 @@
 	* Fixed a bug in 'src/glassmonitor/glassmonitor.cpp' that caused
 	the section divider to be drawn only between the first two monitor
 	strips.
+2016-04-12 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented a summary alarm indicator.

@@ -49,6 +49,7 @@ class Monitor : public QWidget
  private slots:
   void statsClickedData();
   void listenClickedData();
+  void flashData();
   void processReadyReadData();
   void processFinishedData(int exit_code,QProcess::ExitStatus status);
   void processErrorData(QProcess::ProcessError err);
@@ -66,6 +67,9 @@ class Monitor : public QWidget
   QLabel *mon_label;
   QPushButton *mon_stats_button;
   QPushButton *mon_listen_button;
+  bool mon_connected;
+  bool mon_flash_state;
+  QTimer *mon_flash_timer;
   unsigned mon_channels;
   bool mon_listening;
   QProcess *mon_process;

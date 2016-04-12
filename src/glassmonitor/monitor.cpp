@@ -26,6 +26,7 @@ Monitor::Monitor(jack_client_t *jack,int streamno,Config *config,
 		 QWidget *parent)
   : QWidget(parent)
 {
+  mon_connected=false;
   mon_channels=0;
   mon_listening=false;
   mon_jack_client=jack;
@@ -58,6 +59,9 @@ Monitor::Monitor(jack_client_t *jack,int streamno,Config *config,
   // Label
   //
   mon_label=new QLabel(this);
+  mon_flash_state=false;
+  mon_flash_timer=new QTimer(this);
+  connect(mon_flash_timer,SIGNAL(timeout()),this,SLOT(flashData()));
 
   //
   // Buttons
@@ -179,6 +183,18 @@ void Monitor::listenClickedData()
 }
 
 
+void Monitor::flashData()
+{
+  if(mon_flash_state) {
+    mon_label->setStyleSheet("");
+  }
+  else {
+    mon_label->setStyleSheet("color: #FFFFFF; background-color: #FF5555;");
+  }
+  mon_flash_state=!mon_flash_state;
+}
+
+
 void Monitor::processReadyReadData()
 {
   QString line;
@@ -273,14 +289,37 @@ void Monitor::UpdateStat(const QString &category,const QString &param,
 			 const QString &value)
 {
   //  printf("Category: %s  Param: %s\n",(const char *)category.toUtf8(),
-  //	 (const char *)value.toUtf8());
+  //  	 (const char *)value.toUtf8());
 
   mon_stats_dialog->update(category,param,value);
 
   if((category=="Codec")&&(param=="Channels")) {
     mon_channels=value.toUInt();
   }
-  
+  if((category=="Connector")&&(param=="Connected")) {
+    if(value.toLower()=="yes") {
+      if(!mon_connected) {
+	mon_listen_button->setEnabled(true);
+	mon_flash_timer->stop();
+	mon_flash_state=false;
+	mon_label->setStyleSheet("");
+	mon_connected=true;
+      }
+    }
+    else {
+      if(mon_connected) {
+	for(int i=0;i<GLASSMONITOR_MAX_AUDIO_CHANNELS;i++) {
+	  mon_meters[i]->setPeakBar(-10000);
+	}
+	mon_listen_button->setText(tr("Listen"));
+	mon_listen_button->setStyleSheet("");
+	mon_listen_button->setDisabled(true);
+	mon_listening=false;
+	mon_flash_timer->start(500);
+	mon_connected=false;
+      }
+    }
+  }
 }
 
 void Monitor::ProcessMeterUpdates(const QString &values)
