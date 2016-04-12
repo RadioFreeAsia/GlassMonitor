@@ -127,6 +127,7 @@ else
 fi 
 
 AC_CONFIG_FILES([ \
+    conf/Makefile \
     src/Makefile \
     src/glassmonitor/Makefile \
     glassmonitor.spec \

@@ -1,2 +1,4 @@
 2016-04-11 Fred Gleason <fredg@paravelsystems.com>
 	* Initial package creation.
+2016-04-12 Fred Gleason <fredg@paravelsystems.com>
+	* Implemented metering and monitoring controls.

@@ -18,12 +18,20 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-#ifndef GLASSGUIPLAYER_H
-#define GLASSGUIPLAYER_H
+#ifndef GLASSMONITOR_H
+#define GLASSMONITOR_H
+
+#include <vector>
+
+#include <jack/jack.h>
 
 #include <QMainWindow>
+#include <QProcess>
+#include <QTimer>
 
-#define GLASSMONITOR_USAGE "[options]\n"
+#include "config.h"
+#include "monitor.h"
+#include "profile.h"
 
 class MainWidget : public QMainWindow
 {
@@ -31,6 +39,27 @@ class MainWidget : public QMainWindow
  public:
   MainWidget(QWidget *parent=0);
   QSize sizeHint() const;
+
+ private slots:
+  void jackProcessFinishedData(int exit_code,QProcess::ExitStatus status);
+  void jackProcessErrorData(QProcess::ProcessError err);
+  void jackProcessKillData();
+
+ protected:
+  void paintEvent(QPaintEvent *e);
+  void resizeEvent(QResizeEvent *e);
+  void closeEvent(QCloseEvent *e);
+
+ private:
+  bool StartJack(QString *err_msg);
+  void StopJack();
+  std::vector<Monitor *> glass_monitors;
+  QProcess *glass_jack_process;
+  QTimer *glass_jack_kill_timer;
+  jack_client_t *glass_jack_client;
+  Config *glass_config;
+  friend void GlassMonitor_JackPortConnect(jack_port_id_t,jack_port_id_t,int,
+					   void *);
 };
 
 

@@ -20,7 +20,8 @@
 ##   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 ##
 
-SUBDIRS = src
+SUBDIRS = conf\
+          src
 
 rpm:	dist
 	cp glassmonitor-$(VERSION).tar.gz $(HOME)/rpmbuild/SOURCES/

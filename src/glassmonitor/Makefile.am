@@ -30,9 +30,19 @@ moc_%.cpp:	%.h
 
 bin_PROGRAMS = glassmonitor
 
-dist_glassmonitor_SOURCES = glassmonitor.cpp glassmonitor.h
+dist_glassmonitor_SOURCES = cmdswitch.cpp cmdswitch.h\
+                            config.cpp config.h\
+                            glassmonitor.cpp glassmonitor.h\
+                            jack.cpp\
+                            monitor.cpp monitor.h\
+                            playmeter.cpp playmeter.h\
+                            profile.cpp profile.h\
+                            segmeter.cpp segmeter.h
 
-nodist_glassmonitor_SOURCES = moc_glassmonitor.cpp
+nodist_glassmonitor_SOURCES = moc_glassmonitor.cpp\
+                              moc_monitor.cpp\
+                              moc_playmeter.cpp\
+                              moc_segmeter.cpp
 
 glassmonitor_LDADD = @GUILIBS@ @LIBJACK@
 glassmonitor_LDFLAGS = @GUIFLAGS@
