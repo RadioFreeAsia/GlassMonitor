@@ -20,12 +20,15 @@
 
 #include <stdio.h>
 
+#include <vmime/platforms/posix/posixHandler.hpp>
+
 #include <QApplication>
 #include <QMessageBox>
 #include <QPainter>
 
 #include "cmdswitch.h"
 #include "glassmonitor.h"
+#include "mail.h"
 
 MainWidget::MainWidget(QWidget *parent)
   : QMainWindow(parent)
@@ -40,6 +43,11 @@ MainWidget::MainWidget(QWidget *parent)
       exit(256);
     }
   }
+
+  //
+  // Initialize VMime
+  //
+  vmime::platform::setHandler<vmime::platforms::posix::posixHandler>();
 
   setWindowTitle(QString("GlassMonitor v")+VERSION);
 
@@ -70,6 +78,10 @@ MainWidget::MainWidget(QWidget *parent)
 
   setMinimumSize(QSize(570,40*glass_monitors.size()));
   setMaximumHeight(40*glass_monitors.size());
+
+  SendAlert("GlassMonitor: started","GlassMonitor started at "+
+	    QDateTime(QDate::currentDate(),QTime::currentTime()).
+	    toString("MM/dd/yyyy hh:mm:ss"),glass_config,this);
 }
 
 
@@ -108,6 +120,9 @@ void MainWidget::closeEvent(QCloseEvent *e)
     glass_monitors[i]->stop();
   }
   StopJack();
+  SendAlert("GlassMonitor: stopped","GlassMonitor stopped at "+
+	    QDateTime(QDate::currentDate(),QTime::currentTime()).
+	    toString("MM/dd/yyyy hh:mm:ss"),glass_config,this);
 }
 
 

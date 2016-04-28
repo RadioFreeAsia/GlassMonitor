@@ -40,6 +40,48 @@ QString Config::globalJackServerName() const
 }
 
 
+QString Config::mailAlertAddress() const
+{
+  return conf_mail_alert_address;
+}
+
+
+QString Config::mailFromAddress() const
+{
+  return conf_mail_from_address;
+}
+
+
+QString Config::mailSmtpHostname() const
+{
+  return conf_mail_smtp_hostname;
+}
+
+
+uint16_t Config::mailSmtpPort() const
+{
+  return conf_mail_smtp_port;
+}
+
+
+QString Config::mailSmtpUsername() const
+{
+  return conf_mail_smtp_username;
+}
+
+
+QString Config::mailSmtpPassword() const
+{
+  return conf_mail_smtp_password;
+}
+
+
+bool Config::mailUseTls() const
+{
+  return conf_mail_use_tls;
+}
+
+
 unsigned Config::monitorQuantity() const
 {
   return conf_monitor_urls.size();
@@ -69,6 +111,14 @@ void Config::load()
   conf_global_jack_command_line=
     p->stringValue("Global","JackCommandLine","jackd -R -d alsa -d hw:0");
   conf_global_jack_server_name=p->stringValue("Global","JackServerName","");
+  conf_mail_alert_address=p->stringValue("Mail","AlertAddress");
+  conf_mail_from_address=
+    p->stringValue("Mail","FromAddress","noreply@example.com");
+  conf_mail_smtp_hostname=p->stringValue("Mail","SmtpHostname");
+  conf_mail_smtp_port=p->intValue("Mail","SmtpPort");
+  conf_mail_smtp_username=p->stringValue("Mail","SmtpUsername");
+  conf_mail_smtp_password=p->stringValue("Mail","SmtpPassword");
+  conf_mail_use_tls=p->boolValue("Mail","UseTls");
 
   QString section=QString().sprintf("Monitor%d",count+1);
   url=p->stringValue(section,"Url","",&ok);
@@ -94,6 +144,21 @@ void Config::save()
     fprintf(f,"[Global]\n");
     fprintf(f,"JackCommandLine=%s\n",
 	    (const char *)conf_global_jack_command_line.toUtf8());
+    fprintf(f,"\n");
+    fprintf(f,"[Mail]\n");
+    fprintf(f,"AlertAddress=%s\n",
+	    (const char *)conf_mail_alert_address.toUtf8());
+    fprintf(f,"FromAddress=%s\n",
+	    (const char *)conf_mail_from_address.toUtf8());
+    fprintf(f,"SmtpHostname=%s\n",
+	    (const char *)conf_mail_smtp_hostname.toUtf8());
+    fprintf(f,"SmtpPort=%u\n",0xFFFF&conf_mail_smtp_port);
+    fprintf(f,"SmtpUsername=%s\n",
+	    (const char *)conf_mail_smtp_username.toUtf8());
+    fprintf(f,"SmtpPassword=%s\n",
+	    (const char *)conf_mail_smtp_password.toUtf8());
+    fprintf(f,"UseTls=%d\n",conf_mail_use_tls);
+    fprintf(f,"\n");
     for(unsigned i=0;i<conf_monitor_urls.size();i++) {
       fprintf(f,"[Monitor%d]\n",i+1);
       fprintf(f,"Url=%s\n",(const char *)conf_monitor_urls[i].toUtf8());

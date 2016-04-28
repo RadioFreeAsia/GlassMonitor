@@ -10,3 +10,5 @@
 	strips.
 2016-04-12 Fred Gleason <fredg@paravelsystems.com>
 	* Implemented a summary alarm indicator.
+2016-04-28 Fred Gleason <fredg@paravelsystems.com>
+	* Added an e-mail alert subsystem.

@@ -21,6 +21,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <stdint.h>
+
 #include <vector>
 
 #include <QString>
@@ -33,6 +35,13 @@ class Config
   Config();
   QString globalJackCommandLine() const;
   QString globalJackServerName() const;
+  QString mailAlertAddress() const;
+  QString mailFromAddress() const;
+  QString mailSmtpHostname() const;
+  uint16_t mailSmtpPort() const;
+  QString mailSmtpUsername() const;
+  QString mailSmtpPassword() const;
+  bool mailUseTls() const;
   unsigned monitorQuantity() const;
   QString monitorUrl(unsigned n) const;
   QString monitorLabel(unsigned n) const;
@@ -42,6 +51,13 @@ class Config
  private:
   QString conf_global_jack_command_line;
   QString conf_global_jack_server_name;
+  QString conf_mail_alert_address;
+  QString conf_mail_from_address;
+  QString conf_mail_smtp_hostname;
+  uint16_t conf_mail_smtp_port;
+  QString conf_mail_smtp_username;
+  QString conf_mail_smtp_password;
+  bool conf_mail_use_tls;
   std::vector<QString> conf_monitor_urls;
   std::vector<QString> conf_monitor_labels;
 };

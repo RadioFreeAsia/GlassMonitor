@@ -20,7 +20,7 @@
 ##
 ## Use automake to process this into a Makefile.in
 
-AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@
+AM_CPPFLAGS = -Wall -DPREFIX=\"$(prefix)\" -Wno-strict-aliasing @QT4_CFLAGS@ @VMIME_CFLAGS@
 MOC = @QT4_MOC@
 
 # The dependency for qt's Meta Object Compiler (moc)
@@ -34,6 +34,7 @@ dist_glassmonitor_SOURCES = cmdswitch.cpp cmdswitch.h\
                             config.cpp config.h\
                             glassmonitor.cpp glassmonitor.h\
                             jack.cpp\
+                            mail.cpp mail.h\
                             monitor.cpp monitor.h\
                             playmeter.cpp playmeter.h\
                             profile.cpp profile.h\
@@ -48,7 +49,7 @@ nodist_glassmonitor_SOURCES = moc_glassmonitor.cpp\
                               moc_statsdialog.cpp\
                               moc_statspanel.cpp
 
-glassmonitor_LDADD = @GUILIBS@ @LIBJACK@
+glassmonitor_LDADD = @GUILIBS@ @LIBJACK@ @VMIME_LIBS@
 glassmonitor_LDFLAGS = @GUIFLAGS@
 
 CLEANFILES = *~\

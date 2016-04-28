@@ -56,7 +56,7 @@ AC_CHECK_PROG(MOC_NAME,moc-qt4,[moc-qt4],[moc])
 AC_SUBST(MOC,$MOC_NAME)
 
 #
-# Check for Jack Audio Connection Kit
+# Check for Jack Audio Connection Kit (Mandatory)
 #
 AC_CHECK_HEADER(jack/jack.h,[JACK_FOUND=y],[])
 if test $JACK_FOUND ; then
@@ -70,6 +70,11 @@ if test $JACK_FOUND ; then
 else 
   AC_SUBST(LIBJACK,"")
 fi
+
+#
+# Check for VMime (Mandatory)
+#
+PKG_CHECK_MODULES(VMIME,vmime,[],[AC_MSG_ERROR([*** VMime not found ***])])
 
 #
 # Check for DocBook Toolchain

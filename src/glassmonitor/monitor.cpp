@@ -20,12 +20,27 @@
 
 #include <QMessageBox>
 
+#include "mail.h"
 #include "monitor.h"
 
 Monitor::Monitor(jack_client_t *jack,int streamno,Config *config,
 		 QWidget *parent)
   : QWidget(parent)
 {
+  QStringList to_addrs;
+  to_addrs.push_back("gleasonf@rfa.org");
+  QStringList dummy;
+
+
+  /*
+  if(SendMail(to_addrs,dummy,dummy,"fredg@paravelsystems.com","fredg@paravelsystems.com","Test Message","This is the message!")) {
+    printf("SUCCESSFUL!\n");
+  }
+  else {
+    printf("FAILED\n");
+  }
+  */
+
   mon_connected=false;
   mon_channels=0;
   mon_listening=false;
