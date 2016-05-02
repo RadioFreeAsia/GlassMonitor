@@ -81,7 +81,8 @@ MainWidget::MainWidget(QWidget *parent)
 
   SendAlert("GlassMonitor: started","GlassMonitor started at "+
 	    QDateTime(QDate::currentDate(),QTime::currentTime()).
-	    toString("MM/dd/yyyy hh:mm:ss"),glass_config,this);
+	    toString("MM/dd/yyyy hh:mm:ss")+".",
+	    glass_config,this);
 }
 
 
@@ -122,7 +123,8 @@ void MainWidget::closeEvent(QCloseEvent *e)
   StopJack();
   SendAlert("GlassMonitor: stopped","GlassMonitor stopped at "+
 	    QDateTime(QDate::currentDate(),QTime::currentTime()).
-	    toString("MM/dd/yyyy hh:mm:ss"),glass_config,this);
+	    toString("MM/dd/yyyy hh:mm:ss")+".",
+	    glass_config,this);
 }
 
 

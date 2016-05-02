@@ -46,7 +46,8 @@ bool SendAlert(const QString &subj,const QString &msg,Config *config,
   }
   return SendMail(QStringList(config->mailAlertAddress()),
 		  QStringList(),QStringList(),config->mailFromAddress(),
-		  "",subj,msg,config,parent);
+		  "",subj,"On host \""+Config::hostname()+"\": "+msg,config,
+		  parent);
 }
 
 

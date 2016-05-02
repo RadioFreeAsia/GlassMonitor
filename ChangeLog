@@ -21,3 +21,6 @@
 2016-05-02 Fred Gleason <fredg@paravelsystems.com>
 	* Added a rule to 'glassmonitor.spec.in' to install a sample
 	configuration file.
+2016-05-02 Fred Gleason <fredg@paravelsystems.com>
+	* Added 'stream connected' and 'stream disconnected' e-mail
+	alerts.

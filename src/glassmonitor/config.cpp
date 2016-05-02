@@ -19,6 +19,7 @@
 //
 
 #include <stdio.h>
+#include <unistd.h>
 
 #include "config.h"
 #include "profile.h"
@@ -167,4 +168,15 @@ void Config::save()
     fclose(f);
     rename(tmpfile.toUtf8(),GLASSMONITOR_CONF_FILE);
   }
+}
+
+
+QString Config::hostname()
+{
+  char name[PATH_MAX];
+
+  if(gethostname(name,PATH_MAX)!=0) {
+    return QString("unknown");
+  }
+  return QString(name);
 }

@@ -47,6 +47,7 @@ class Config
   QString monitorLabel(unsigned n) const;
   void load();
   void save();
+  static QString hostname();
 
  private:
   QString conf_global_jack_command_line;

@@ -18,6 +18,7 @@
 //   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
+#include <QDateTime>
 #include <QMessageBox>
 
 #include "mail.h"
@@ -30,17 +31,6 @@ Monitor::Monitor(jack_client_t *jack,int streamno,Config *config,
   QStringList to_addrs;
   to_addrs.push_back("gleasonf@rfa.org");
   QStringList dummy;
-
-
-  /*
-  if(SendMail(to_addrs,dummy,dummy,"fredg@paravelsystems.com","fredg@paravelsystems.com","Test Message","This is the message!")) {
-    printf("SUCCESSFUL!\n");
-  }
-  else {
-    printf("FAILED\n");
-  }
-  */
-
   mon_connected=false;
   mon_channels=0;
   mon_listening=false;
@@ -150,10 +140,10 @@ void Monitor::listenClickedData()
     switch(mon_channels) {
     case 1:
       jack_disconnect(mon_jack_client,
-		      (mon_client_name+":output1").toUtf8(),
+		      (mon_client_name+":output_1").toUtf8(),
 		      "system:playback_1");
       jack_disconnect(mon_jack_client,
-		      (mon_client_name+":output1").toUtf8(),
+		      (mon_client_name+":output_1").toUtf8(),
 		      "system:playback_2");
       break;
 
@@ -174,10 +164,10 @@ void Monitor::listenClickedData()
     switch(mon_channels) {
     case 1:
       jack_connect(mon_jack_client,
-		   (mon_client_name+":output1").toUtf8(),
+		   (mon_client_name+":output_1").toUtf8(),
 		   "system:playback_1");
       jack_connect(mon_jack_client,
-		   (mon_client_name+":output1").toUtf8(),
+		   (mon_client_name+":output_1").toUtf8(),
 		   "system:playback_2");
       break;
 
@@ -318,6 +308,11 @@ void Monitor::UpdateStat(const QString &category,const QString &param,
 	mon_flash_timer->stop();
 	mon_flash_state=false;
 	mon_label->setStyleSheet("");
+	SendAlert("GlassMonitor: stream connected",
+		  "Stream \""+mon_config->monitorLabel(mon_stream_number)+"\" "+
+		  "connected at "+
+		  QDateTime(QDate::currentDate(),QTime::currentTime()).
+		  toString("MM/dd/yyyy hh:mm:ss")+".",mon_config,this);
 	mon_connected=true;
       }
     }
@@ -331,6 +326,11 @@ void Monitor::UpdateStat(const QString &category,const QString &param,
 	mon_listen_button->setDisabled(true);
 	mon_listening=false;
 	mon_flash_timer->start(500);
+	SendAlert("GlassMonitor: stream disconnected",
+		  "Stream \""+mon_config->monitorLabel(mon_stream_number)+"\" "+
+		  "disconnected at "+
+		  QDateTime(QDate::currentDate(),QTime::currentTime()).
+		  toString("MM/dd/yyyy hh:mm:ss")+".",mon_config,this);
 	mon_connected=false;
       }
     }
