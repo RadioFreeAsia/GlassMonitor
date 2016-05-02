@@ -24,3 +24,6 @@
 2016-05-02 Fred Gleason <fredg@paravelsystems.com>
 	* Added 'stream connected' and 'stream disconnected' e-mail
 	alerts.
+2016-05-02 Fred Gleason <fredg@paravelsystems.com>
+	* Changed behavior for a failed stream at start-up to attempt
+	reconnects every five seconds.

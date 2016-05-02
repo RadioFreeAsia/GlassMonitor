@@ -53,6 +53,7 @@ class Monitor : public QWidget
   void processReadyReadData();
   void processFinishedData(int exit_code,QProcess::ExitStatus status);
   void processErrorData(QProcess::ProcessError err);
+  void restartData();
 
  protected:
   void resizeEvent(QResizeEvent *e);
@@ -62,6 +63,7 @@ class Monitor : public QWidget
   void UpdateStat(const QString &category,const QString &param,
 		  const QString &value);
   void ProcessMeterUpdates(const QString &values);
+  void SetSummaryAlarm(bool state);
   StatsDialog *mon_stats_dialog;
   PlayMeter *mon_meters[GLASSMONITOR_MAX_AUDIO_CHANNELS];
   QLabel *mon_label;
@@ -78,6 +80,8 @@ class Monitor : public QWidget
   QString mon_client_name;
   int mon_stream_number;
   Config *mon_config;
+  QTimer *mon_restart_timer;
+  bool mon_restart_alerted;
 };
 
 
