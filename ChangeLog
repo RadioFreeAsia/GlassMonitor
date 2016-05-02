@@ -12,3 +12,5 @@
 	* Implemented a summary alarm indicator.
 2016-04-28 Fred Gleason <fredg@paravelsystems.com>
 	* Added an e-mail alert subsystem.
+2016-05-02 Fred Gleason <fredg@paravelsystems.com>
+	* Added a 'make rpm' target.
