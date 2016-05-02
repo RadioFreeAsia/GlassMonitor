@@ -27,3 +27,5 @@
 2016-05-02 Fred Gleason <fredg@paravelsystems.com>
 	* Changed behavior for a failed stream at start-up to attempt
 	reconnects every five seconds.
+2016-05-02 Fred Gleason <fredg@paravelsystems.com>
+	* Incremented the package version to 0.6.1.
