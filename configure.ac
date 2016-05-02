@@ -133,8 +133,10 @@ fi
 
 AC_CONFIG_FILES([ \
     conf/Makefile \
+    icons/Makefile \
     src/Makefile \
     src/glassmonitor/Makefile \
+    xdg/Makefile \
     glassmonitor.spec \
     Makefile ])
 AC_OUTPUT()

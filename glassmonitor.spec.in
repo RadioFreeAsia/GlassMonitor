@@ -55,6 +55,15 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %post
+if [ -x %{_bindir}/gtk-update-icon-cache ] ; then
+  %{_bindir}/gtk-update-icon-cache -f --quiet %{_datadir}/icons/hicolor || :
+fi
+
+
+%postun
+if [ -x %{_bindir}/gtk-update-icon-cache ] ; then
+  %{_bindir}/gtk-update-icon-cache -f --quiet %{_datadir}/icons/hicolor || :
+fi
 
 
 %clean
@@ -64,6 +73,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{_bindir}/glassmonitor
+%{_datadir}/applications/glassmonitor.desktop
+%{_datadir}/icons/hicolor/16x16/apps/glassmonitor.png
+%{_datadir}/icons/hicolor/22x22/apps/glassmonitor.png
+%{_datadir}/icons/hicolor/32x32/apps/glassmonitor.png
+%{_datadir}/icons/hicolor/48x48/apps/glassmonitor.png
 %doc AUTHORS
 %doc ChangeLog
 %doc COPYING 

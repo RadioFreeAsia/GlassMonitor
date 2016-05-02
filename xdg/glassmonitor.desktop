@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=AudioVideo;Player;
+Encoding=UTF-8
+Name=GlassMonitor
+GenericName=Audio Stream Monitor
+Exec=glassmonitor
+Icon=glassmonitor
+Path=
+Type=Application
+Terminal=false

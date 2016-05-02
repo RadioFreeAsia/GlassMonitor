@@ -21,7 +21,9 @@
 ##
 
 SUBDIRS = conf\
-          src
+          icons\
+          src\
+          xdg
 
 rpm:	dist
 	cp glassmonitor-$(VERSION).tar.gz $(HOME)/rpmbuild/SOURCES/
