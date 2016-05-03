@@ -81,16 +81,18 @@ bool MainWidget::StartJack(QString *err_msg)
   //
   // Start JACK Instance
   //
-  args=glass_config->globalJackCommandLine().split(" ");
-  cmd=args[0];
-  args.erase(args.begin());
-  glass_jack_process=new QProcess(this);
-  connect(glass_jack_process,SIGNAL(finished(int,QProcess::ExitStatus)),
-	  this,SLOT(jackProcessFinishedData(int,QProcess::ExitStatus)));
-  connect(glass_jack_process,SIGNAL(error(QProcess::ProcessError)),
-	  this,SLOT(jackProcessErrorData(QProcess::ProcessError)));
-  glass_jack_process->start(cmd,args);
-  glass_jack_process->waitForStarted();
+  if(!glass_config->globalJackCommandLine().isEmpty()) {
+    args=glass_config->globalJackCommandLine().split(" ");
+    cmd=args[0];
+    args.erase(args.begin());
+    glass_jack_process=new QProcess(this);
+    connect(glass_jack_process,SIGNAL(finished(int,QProcess::ExitStatus)),
+	    this,SLOT(jackProcessFinishedData(int,QProcess::ExitStatus)));
+    connect(glass_jack_process,SIGNAL(error(QProcess::ProcessError)),
+	    this,SLOT(jackProcessErrorData(QProcess::ProcessError)));
+    glass_jack_process->start(cmd,args);
+    glass_jack_process->waitForStarted();
+  }
 
   //
   // Connect to JACK Instance

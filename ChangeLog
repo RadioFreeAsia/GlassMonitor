@@ -29,3 +29,6 @@
 	reconnects every five seconds.
 2016-05-02 Fred Gleason <fredg@paravelsystems.com>
 	* Incremented the package version to 0.6.1.
+2016-05-03 Fred Gleason <fredg@paravelsystems.com>
+	* Modified glassmonitor(1) to not start jackd(1) if no command line
+	is specified in glassmonitor.conf(5).
