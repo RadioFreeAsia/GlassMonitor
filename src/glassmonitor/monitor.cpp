@@ -315,6 +315,28 @@ void Monitor::restartData()
 
 void Monitor::resizeEvent(QResizeEvent *e)
 {
+  QFont font("helvetica",size().height()/3,QFont::Normal);
+  font.setPixelSize(size().height()/3);
+
+  int meter_height=(size().height()-10)/GLASSMONITOR_MAX_AUDIO_CHANNELS;
+  for(int i=0;i<GLASSMONITOR_MAX_AUDIO_CHANNELS;i++) {
+    mon_meters[i]->setGeometry(5,5+i*meter_height,size().width()/3,meter_height);
+  }
+
+  mon_label->setGeometry(size().width()/3+10,5,size().width()-(size().width()/3+10),size().height()-10);
+  mon_label->setFont(font);
+
+  mon_stats_button->setGeometry(size().width()-4*size().width()/15-10,5,
+				2*size().width()/15,size().height()-10);
+  mon_stats_button->setFont(font);
+
+  mon_listen_button->setGeometry(size().width()-2*size().width()/15-10,5,
+				 2*size().width()/15,size().height()-10);
+  mon_listen_button->setFont(font);
+
+  /*
+   * Fixed size
+   *
   int meter_height=(size().height()-10)/GLASSMONITOR_MAX_AUDIO_CHANNELS;
   for(int i=0;i<GLASSMONITOR_MAX_AUDIO_CHANNELS;i++) {
     mon_meters[i]->setGeometry(5,5+i*meter_height,200,meter_height);
@@ -323,6 +345,7 @@ void Monitor::resizeEvent(QResizeEvent *e)
   mon_label->setGeometry(210,5,size().width()-360,size().height()-10);
   mon_stats_button->setGeometry(size().width()-140,5,60,size().height()-10);
   mon_listen_button->setGeometry(size().width()-70,5,60,size().height()-10);
+  */
 }
 
 

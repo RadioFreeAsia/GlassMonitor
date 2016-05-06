@@ -36,3 +36,6 @@
 	* Modified 'src/glassmonitor/montiro.cpp' so that network errors and
 	player instance crashes are reported via e-mail alert rather than
 	local message dialog.
+2016-05-06 Fred Gleason <fredg@paravelsystems.com>
+	* Modified 'src/glassmonitor.cpp' and 'src/monitor.cpp' to make them
+	fully resizeable.

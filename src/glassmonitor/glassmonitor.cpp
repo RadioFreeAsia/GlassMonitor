@@ -77,7 +77,7 @@ MainWidget::MainWidget(QWidget *parent)
   }
 
   setMinimumSize(QSize(570,40*glass_monitors.size()));
-  setMaximumHeight(40*glass_monitors.size());
+  //  setMaximumHeight(40*glass_monitors.size());
 
   SendAlert("GlassMonitor: started","GlassMonitor started at "+
 	    QDateTime(QDate::currentDate(),QTime::currentTime()).
@@ -109,9 +109,19 @@ void MainWidget::resizeEvent(QResizeEvent *e)
 {
   for(unsigned i=0;i<glass_monitors.size();i++) {
     Monitor *m=glass_monitors[i];
+    glass_monitors[i]->
+      setGeometry(0,i*size().height()/glass_monitors.size(),
+		  size().width(),size().height()/glass_monitors.size());
+  }
+  /*
+   * Fixed size
+   *
+  for(unsigned i=0;i<glass_monitors.size();i++) {
+    Monitor *m=glass_monitors[i];
     glass_monitors[i]->setGeometry(0,i*m->sizeHint().height(),
 				   size().width(),m->sizeHint().height());
   }
+  */
 }
 
 
