@@ -32,3 +32,7 @@
 2016-05-03 Fred Gleason <fredg@paravelsystems.com>
 	* Modified glassmonitor(1) to not start jackd(1) if no command line
 	is specified in glassmonitor.conf(5).
+2016-05-03 Fred Gleason <fredg@paravelsystems.com>
+	* Modified 'src/glassmonitor/montiro.cpp' so that network errors and
+	player instance crashes are reported via e-mail alert rather than
+	local message dialog.

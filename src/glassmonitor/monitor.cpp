@@ -241,29 +241,49 @@ void Monitor::processReadyReadData()
 void Monitor::processFinishedData(int exit_code,QProcess::ExitStatus status)
 {
   if(status!=QProcess::NormalExit) {
-    QMessageBox::warning(this,"GlassMonitor - "+tr("Player Error"),
-			 tr("Player for stream")+" \""+
-			 mon_config->monitorUrl(mon_stream_number)+
-			 "\" "+tr("crashed!"));
-  }
-  switch(exit_code) {
-  case 0:
-    break;
-
-  case 6:   // Server return non-2xx response
     mon_restart_timer->start(10000);
     if(!mon_restart_alerted) {
       SetSummaryAlarm(false);
+      SendAlert("GlassMonitor: stream disconnected",
+		"Player instance for stream \""+
+		mon_config->monitorLabel(mon_stream_number)+"\" "+
+		"crashed at "+
+		QDateTime(QDate::currentDate(),QTime::currentTime()).
+		toString("MM/dd/yyyy hh:mm:ss")+".",mon_config,this);
       mon_restart_alerted=true;
     }
-    break;
+  }
+  else {
+    switch(exit_code) {
+    case 0:
+      break;
 
-  default:
-    QMessageBox::warning(this,"GlassMonitor - "+tr("Player Error"),
-			 tr("Player for stream")+" \""+
-			 mon_config->monitorUrl(mon_stream_number)+
-			 " "+tr("returned non-zero exit code")+" "+
-			 QString().sprintf(": %d.",exit_code));
+    case 6:   // Server returned non-2xx response
+      mon_restart_timer->start(10000);
+      if(!mon_restart_alerted) {
+	SetSummaryAlarm(false);
+	SendAlert("GlassMonitor: stream disconnected",
+		  "Stream \""+mon_config->monitorLabel(mon_stream_number)+"\" "+
+		  "disconnected at "+
+		  QDateTime(QDate::currentDate(),QTime::currentTime()).
+		  toString("MM/dd/yyyy hh:mm:ss")+".",mon_config,this);
+	mon_restart_alerted=true;
+      }
+      break;
+
+    default:
+      mon_restart_timer->start(10000);
+      if(!mon_restart_alerted) {
+	SetSummaryAlarm(false);
+	SendAlert("GlassMonitor: stream disconnected",
+		  "Player instance for stream \""+
+		  mon_config->monitorLabel(mon_stream_number)+"\" "+
+		  QString().sprintf("exited with code %d at ",exit_code)+
+		  QDateTime(QDate::currentDate(),QTime::currentTime()).
+		  toString("MM/dd/yyyy hh:mm:ss")+".",mon_config,this);
+	mon_restart_alerted=true;
+      }
+    }
   }
   emit stopped(mon_stream_number);
 }
@@ -271,11 +291,19 @@ void Monitor::processFinishedData(int exit_code,QProcess::ExitStatus status)
 
 void Monitor::processErrorData(QProcess::ProcessError err)
 {
-  QMessageBox::warning(this,"GlassMonitor - "+tr("Player Error"),
-		       tr("Player for stream")+" \""+
-		       mon_config->monitorUrl(mon_stream_number)+
-		       " "+tr("return network error")+": "+
-		       QString().sprintf(": %u.",err));
+  mon_restart_timer->start(10000);
+  if(!mon_restart_alerted) {
+    mon_process->kill();
+    SetSummaryAlarm(false);
+    SendAlert("GlassMonitor: stream disconnected",
+	      "Player instance for stream \""+
+	      mon_config->monitorLabel(mon_stream_number)+"\" "+
+	      QString().sprintf("returned network error %d at ",err)+
+	      QDateTime(QDate::currentDate(),QTime::currentTime()).
+	      toString("MM/dd/yyyy hh:mm:ss")+".",mon_config,this);
+    mon_process->kill();
+    mon_restart_alerted=true;
+  }
 }
 
 
@@ -335,11 +363,21 @@ void Monitor::UpdateStat(const QString &category,const QString &param,
     if(value.toLower()=="yes") {
       if(!mon_connected) {
 	SetSummaryAlarm(true);
+	SendAlert("GlassMonitor: stream connected",
+		  "Stream \""+mon_config->monitorLabel(mon_stream_number)+"\" "+
+		  "connected at "+
+		  QDateTime(QDate::currentDate(),QTime::currentTime()).
+		  toString("MM/dd/yyyy hh:mm:ss")+".",mon_config,this);
       }
     }
     else {
       if(mon_connected) {
 	SetSummaryAlarm(false);
+	SendAlert("GlassMonitor: stream disconnected",
+		  "Stream \""+mon_config->monitorLabel(mon_stream_number)+"\" "+
+		  "disconnected at "+
+		  QDateTime(QDate::currentDate(),QTime::currentTime()).
+		  toString("MM/dd/yyyy hh:mm:ss")+".",mon_config,this);
       }
     }
   }
@@ -368,11 +406,6 @@ void Monitor::SetSummaryAlarm(bool state)
     mon_flash_timer->stop();
     mon_flash_state=false;
     mon_label->setStyleSheet("");
-    SendAlert("GlassMonitor: stream connected",
-	      "Stream \""+mon_config->monitorLabel(mon_stream_number)+"\" "+
-	      "connected at "+
-	      QDateTime(QDate::currentDate(),QTime::currentTime()).
-	      toString("MM/dd/yyyy hh:mm:ss")+".",mon_config,this);
     mon_connected=true;
     mon_restart_alerted=false;  }
   else {
@@ -384,11 +417,6 @@ void Monitor::SetSummaryAlarm(bool state)
     mon_listen_button->setDisabled(true);
     mon_listening=false;
     mon_flash_timer->start(500);
-    SendAlert("GlassMonitor: stream disconnected",
-	      "Stream \""+mon_config->monitorLabel(mon_stream_number)+"\" "+
-	      "disconnected at "+
-	      QDateTime(QDate::currentDate(),QTime::currentTime()).
-	      toString("MM/dd/yyyy hh:mm:ss")+".",mon_config,this);
     mon_connected=false;
   }
 }
