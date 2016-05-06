@@ -130,26 +130,29 @@ void PlayMeter::setGeometry(int x,int y,int w,int h)
   }
   else {
     switch(orientation) {
-	case SegMeter::Left:
-	  meter->setGeometry(2,2,w-4-h,h-4);
-	  label_font=QFont("helvetica",height()-2,QFont::Bold);
-	  label_font.setPixelSize(height()-2);
-	  break;
-	case SegMeter::Right:
-	  meter->setGeometry(2+h,2,w-4-h,h-4);
-	  label_font=QFont("helvetica",height()-2,QFont::Bold);
-	  label_font.setPixelSize(height()-2);
-	  break;
-	case SegMeter::Up:
-	  meter->setGeometry(2,2,w-4,h-4-w);
-	  label_font=QFont("helvetica",width()-2,QFont::Bold);
-	  label_font.setPixelSize(width()-2);
-	  break;
-	case SegMeter::Down:
-	  meter->setGeometry(2,2+width(),w-4,h-4-w);
-	  label_font=QFont("helvetica",width()-2,QFont::Bold);
-	  label_font.setPixelSize(width()-2);
-	  break;
+    case SegMeter::Left:
+      meter->setGeometry(2,2,w-4-h,h-4);
+      label_font=QFont("helvetica",height()-2,QFont::Bold);
+      label_font.setPixelSize(height()-2);
+      break;
+
+    case SegMeter::Right:
+      meter->setGeometry(2+h,2,w-4-h,h-4);
+      label_font=QFont("helvetica",height()-2,QFont::Bold);
+      label_font.setPixelSize(height()-2);
+      break;
+
+    case SegMeter::Up:
+      meter->setGeometry(2,2,w-4,h-4-w);
+      label_font=QFont("helvetica",width()-2,QFont::Bold);
+      label_font.setPixelSize(width()-2);
+      break;
+
+    case SegMeter::Down:
+      meter->setGeometry(2,2+width(),w-4,h-4-w);
+      label_font=QFont("helvetica",width()-2,QFont::Bold);
+      label_font.setPixelSize(width()-2);
+      break;
     }
     makeFont();
   }
@@ -215,18 +218,21 @@ void PlayMeter::paintEvent(QPaintEvent *paintEvent)
   p->setPen(Qt::white);
   if(!meter_label.isEmpty()) {
     switch(orientation) {
-	case SegMeter::Left:
-	  p->drawText(width()-height()+meter_label_x,height()-2,meter_label);
-	  break;
-	case SegMeter::Right:
-	  p->drawText(meter_label_x,height()-2,meter_label);
-	  break;
-	case SegMeter::Up:
-	  p->drawText(meter_label_x,height()-3,meter_label);
-	  break;
-	case SegMeter::Down:
-	  p->drawText(meter_label_x,width()-1,meter_label);
-	  break;
+    case SegMeter::Left:
+      p->drawText(width()-height()+meter_label_x,85*height()/100,meter_label);
+      break;
+
+    case SegMeter::Right:
+      p->drawText(meter_label_x,85*height()/100,meter_label);
+      break;
+
+    case SegMeter::Up:
+      p->drawText(meter_label_x,height()-3,meter_label);
+      break;
+
+    case SegMeter::Down:
+      p->drawText(meter_label_x,width()-1,meter_label);
+      break;
     }
   }
   p->end();
@@ -236,29 +242,32 @@ void PlayMeter::paintEvent(QPaintEvent *paintEvent)
 void PlayMeter::makeFont()
 {
   switch(orientation) {
-      case SegMeter::Left:
-	label_font=QFont("helvetica",height()-2,QFont::Bold);
-	label_font.setPixelSize(height()-2);
-	meter_label_x=(height()-QFontMetrics(label_font).
-		       width(meter_label))/2;
-	break;
-      case SegMeter::Right:
-	label_font=QFont("helvetica",height()-2,QFont::Bold);
-	label_font.setPixelSize(height()-2);
-	meter_label_x=(height()-QFontMetrics(label_font).
-		       width(meter_label))/2;
-	break;
-      case SegMeter::Up:
-	label_font=QFont("helvetica",width()-2,QFont::Bold);
-	label_font.setPixelSize(width()-2);
-	meter_label_x=(width()-QFontMetrics(label_font).
-		       width(meter_label))/2;
-	break;
-      case SegMeter::Down:
-	label_font=QFont("helvetica",width()-2,QFont::Bold);
-	label_font.setPixelSize(width()-2);
-	meter_label_x=(width()-QFontMetrics(label_font).
-		       width(meter_label))/2;
-	break;
+  case SegMeter::Left:
+    label_font=QFont("helvetica",height()-2,QFont::Bold);
+    label_font.setPixelSize(height()-2);
+    meter_label_x=(height()-QFontMetrics(label_font).
+		   width(meter_label))/2;
+    break;
+
+  case SegMeter::Right:
+    label_font=QFont("helvetica",height()-2,QFont::Bold);
+    label_font.setPixelSize(height()-2);
+    meter_label_x=(height()-QFontMetrics(label_font).
+		   width(meter_label))/2;
+    break;
+
+  case SegMeter::Up:
+    label_font=QFont("helvetica",width()-2,QFont::Bold);
+    label_font.setPixelSize(width()-2);
+    meter_label_x=(width()-QFontMetrics(label_font).
+		   width(meter_label))/2;
+    break;
+
+  case SegMeter::Down:
+    label_font=QFont("helvetica",width()-2,QFont::Bold);
+    label_font.setPixelSize(width()-2);
+    meter_label_x=(width()-QFontMetrics(label_font).
+		   width(meter_label))/2;
+    break;
   }
 }
